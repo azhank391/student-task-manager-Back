@@ -7,7 +7,11 @@ if (process.env.NODE_ENV === "production") {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: "mysql",
+    dialectOptions: {
+    ssl: { require: true, rejectUnauthorized: false }
+  }
   };
 } else {
   config = require("../config/config.js").development;
@@ -16,7 +20,14 @@ if (process.env.NODE_ENV === "production") {
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
   dialect: config.dialect,
-  logging: false
+  port: process.env.DB_PORT || 3306, // Default MySQL por
+  logging: false,
+  dialectOptions: {
+    ssl : {
+      require: true,
+      rejectUnauthorized: false, // Only for production with Railway
+    }
+  }
 });
 
 (async () => {
