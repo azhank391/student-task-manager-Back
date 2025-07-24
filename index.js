@@ -4,7 +4,7 @@ require("./config/db"); // MySQL connection
 const cors = require("cors");
 
 const app = express();
-
+const {pool, testConnection} = require("./config/db");
 // ✅ Allow both local + deployed frontend
 const allowedOrigins = [
   "http://localhost:5173",
@@ -27,7 +27,6 @@ app.get("/", (req, res) => {
 const auth = require("./routes/auth");
 const taskRoutes = require("./routes/tasks");
 const adminRoutes = require("./routes/admin");
-
 app.use("/api", auth);
 app.use("/api", taskRoutes);
 app.use("/api/admin", adminRoutes);
