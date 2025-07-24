@@ -1,25 +1,37 @@
 const { Sequelize } = require('sequelize');
-const config = require('./config')['development'];
+const config = require('../config/config.js');
 
-// Initialize Sequelize using config
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  {
-    host: config.host,
-    dialect: config.dialect,
-  }
-);
+// Detect environment
+const env = process.env.NODE_ENV || 'development';
+let sequelize;
+
+if (env === 'production') {
+  // ✅ Use Railway DATABASE_URL
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'mysql',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
+  });
+} else {
+  // ✅ Local development
+  sequelize = new Sequelize(
+    config.development.database,
+    config.development.username,
+    config.development.password,
+    {
+      host: config.development.host,
+      dialect: config.development.dialect
+    }
+  );
+}
 
 // Test connection
 sequelize.authenticate()
-  .then(() => {
-    console.log('✅ MySQL connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('❌ Unable to connect to the MySQL database:', err);
-  });
+  .then(() => console.log(`✅ MySQL connected in ${env} mode`))
+  .catch(err => console.error('❌ MySQL connection error:', err));
 
 module.exports = sequelize;
-
