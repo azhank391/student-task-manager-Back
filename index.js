@@ -4,17 +4,19 @@ require("./config/db"); // MySQL connection
 const cors = require("cors");
 
 const app = express();
-const {pool, testConnection} = require("./config/db");
+const { pool, testConnection } = require("./config/db");
 // ✅ Allow both local + deployed frontend
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://student-task-manager-front.vercel.app/" // Update with your frontend URL later
+  "https://student-task-manager-front.vercel.app", // Update with your frontend URL later
 ];
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
