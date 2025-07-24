@@ -12,7 +12,7 @@ let sequelize;
 
 if (env === 'production') {
   // ✅ Railway Production DB
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
+  sequelize = new Sequelize(process.env.MYSQL_URL, {
     dialect: 'mysql',
     dialectOptions: {
       ssl: {
