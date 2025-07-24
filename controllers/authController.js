@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models').User;
-const jwtSecret = "my-secret-key";
+const jwtSecret = process.env.JWT_SECRET
 const {OAuth2Client} = require('google-auth-library')
 const emailService = require('../services/emailService')
 //register function to handle user registration

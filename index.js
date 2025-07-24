@@ -1,22 +1,35 @@
 const express = require('express');
-require('./config/db'); // This will trigger the connection test
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); // Load env vars first
+require('./config/db'); // Your Sequelize/MySQL connection
+
 const app = express();
 const cors = require('cors');
-// Importing the auth routes
+
+// ✅ Allow both local dev & deployed frontend
+const allowedOrigins = [
+  "http://localhost:5173", // Local Vite frontend
+  "https://student-task-manager-front.vercel.app" // Replace with your live Vercel URL later
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
+app.use(express.json()); // Parse JSON
+
+// ✅ Routes
 const auth = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
-const adminRoutes = require('../Back End/routes/admin')
-app.use(express.json()); // Middleware to parse JSON bodies
-app.use(cors({
-    origin: "http://localhost:5173",
-})); // Enable CORS for all routes
-app.use("/api",auth)
-app.use("/api",taskRoutes)
-app.use("/api/admin",adminRoutes)
-//start the server
-//show in the terminal that mysql is connected
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+const adminRoutes = require('./routes/admin');
+
+app.use("/api", auth);
+app.use("/api", taskRoutes);
+app.use("/api/admin", adminRoutes);
+
+// ✅ Railway gives a dynamic PORT
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
