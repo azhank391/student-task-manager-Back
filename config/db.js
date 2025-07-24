@@ -1,17 +1,13 @@
 const { Sequelize } = require("sequelize");
 
 let sequelize;
-
+const dbUrl = `mysql://${process.env.MYSQLUSER}:${process.env.MYSQLDBPASSWORD}@${process.env.MYSQLDBHOST}:${process.env.MYSQLDBPORT}/${process.env.MYSQLDBNAME}`;
 if (process.env.NODE_ENV === "production") {
   console.log("🚀 Running in PRODUCTION mode with Railway MySQL...");
 
-  sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT || 3306,
+  sequelize = new Sequelize(dbUrl, {
+      host: process.env.MYSQLDBHOST,
+      port: process.env.MYSQLDBPORT || 3306,
       dialect: "mysql",
       logging: false,
       dialectOptions: {
