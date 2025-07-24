@@ -26,10 +26,13 @@ const adminRoutes = require('./routes/admin');
 app.use("/api", auth);
 app.use("/api", taskRoutes);
 app.use("/api/admin", adminRoutes);
+app.get("/", (req, res) => {
+  res.send("✅ Student Task Manager Backend is Live!");
+});
 
 // ✅ Railway gives a dynamic PORT
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
