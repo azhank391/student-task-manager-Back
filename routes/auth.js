@@ -7,8 +7,8 @@ router.post('/auth/register', register);
 // Route for user login
 router.post('/auth/login', login);
 // Route for Google auth registration
-router.post('/auth/google/register', googleAuthRegister);
-// Route for Google auth login
-router.post('/auth/google/login', googleAuthLogin);
+// router.post('/auth/google/register', googleAuthRegister);
+// // Route for Google auth login
+// router.post('/auth/google/login', googleAuthLogin);
 
 module.exports = router;
