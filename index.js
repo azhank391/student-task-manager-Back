@@ -30,7 +30,7 @@ const taskRoutes = require("./routes/tasks");
 const adminRoutes = require("./routes/admin");
 app.use("/api", auth);
 app.use("/api", taskRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/", adminRoutes);
 
 // ✅ Always bind Railway’s dynamic port
 const PORT = process.env.PORT || 3000;
