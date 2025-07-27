@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const Jwt_Secret= "my-secret-key"
 const tokenValidation = (req, res, next) => {
     const token = req.headers["authorization"];
     if (!token) {
@@ -9,7 +8,7 @@ const tokenValidation = (req, res, next) => {
         // First extract the token
         const bearer = token.split(" ")[1];
         // Verify the token with the jwt secret
-        const verified = jwt.verify(bearer, Jwt_Secret);
+        const verified = jwt.verify(bearer, process.env.JWT_SECRET);
         
         // Debug log to see what's in the token
         console.log('Decoded token:', verified);
