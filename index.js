@@ -7,7 +7,6 @@ const app = express();
 const { pool, testConnection } = require("./config/db");
 // ✅ Allow both local + deployed frontend
 const allowedOrigins = [
-  "http://localhost:5173",
   "https://student-task-manager-front.vercel.app", // Update with your frontend URL later
 ];
 
@@ -41,3 +40,7 @@ app.listen(PORT, "0.0.0.0", () => {
   console.log("🚀 Starting backend...");
   console.log(`✅ Server running on port ${PORT}`);
 });
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date() });
+});
+
